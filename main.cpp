@@ -66,8 +66,6 @@ int main(int argc, char* argv[]) {
   for (int i = 0; i <= n; i++) {
     cout << u[i] << " " << x[i] << endl;
   }
-
-  outfile << setw(15) << setprecision(8) << "verdier for x: col[0], verdier for u: col[1]" << endl; 
   for (int i = 0; i <= n; i++) {
     outfile << setw(15) << setprecision(8) << x[i] << " " << u[i] << endl;
   }
