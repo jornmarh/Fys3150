@@ -67,14 +67,11 @@ int main(int argc, char* argv[]) {
     cout << u[i] << " " << x[i] << endl;
   }
 
-  //write u, x to outfile
-/*
-  for (int i = 0; i < n; i++) {
-    outfile << setprecision(8) << x[i] << endl;
+  outfile << setw(15) << setprecision(8) << "verdier for x: col[0], verdier for u: col[1]" << endl; 
+  for (int i = 0; i <= n; i++) {
+    outfile << setw(15) << setprecision(8) << x[i] << " " << u[i] << endl;
   }
   outfile.close();
-*/
-
 
   delete[] a;
   delete[] c;
