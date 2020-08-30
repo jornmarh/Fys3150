@@ -10,6 +10,7 @@
 
 void generellalgo(double*, double*, double*, double*, double*, int);
 void spesifikalgo(double*, double*, double*, double*, double*, int);
+void skriv(double*, int);
 
 using namespace std;
 int main(int argc, char* argv[]) {
@@ -42,12 +43,10 @@ int main(int argc, char* argv[]) {
   }
 
   u[0] = u[n] = 0;
-  generalalgo(a, c, d, g, u, n); //use general algorythm
+  spesifikalgo(a, c, d, g, u, n);
+  //generellalgo(a, c, d, g, u, n);
 
-  //cout << "verdier for u[x(i)]" << endl;
-  //for (int i = 0; i <= n; i++) {
-    //cout << u[i] << " " << x[i] << endl;
-  //}
+  //skriv(u, n);
 
   for (int i = 0; i <= n; i++) {
     outfile << setw(15) << setprecision(8) << x[i] << " " << u[i] << endl;
@@ -65,8 +64,8 @@ int main(int argc, char* argv[]) {
 
 void generellalgo(double* under, double* over, double* diagonal, double* funksjon, double* solution, int dimensjon) {
   for (int i = 2; i <= dimensjon; i++) {
-    diagonal[i] = diagonal[i] - ((under[i-1]*over[i-1])/diagonal[i-1]);
-    funksjon[i] = funksjon[i] - ((under[i-1]*funksjon[i-1])/diagonal[i-1]);
+    diagonal[i] = diagonal[i] - ((under[i-1]*over[i-1])/diagonal[i-1]); //3flops
+    funksjon[i] = funksjon[i] - ((under[i-1]*funksjon[i-1])/diagonal[i-1]); //3flops
   }
   solution[dimensjon-1] = funksjon[dimensjon-1]/diagonal[dimensjon-1];
   for (int i = dimensjon-2; i > 0 ; i--) {
@@ -75,5 +74,17 @@ void generellalgo(double* under, double* over, double* diagonal, double* funksjo
 
 }
 void spesifikalgo(double* under, double* over, double* diagonal, double* funksjon, double* solution, int dimensjon) {
-  
+  for (int i = 2; i <= dimensjon; i++) {
+    diagonal[i] = (i+1.0)/i; //0flops
+    funksjon[i] = funksjon[i] + funksjon[i-1]/diagonal[i-1]; //2 flops
+  }
+  solution[dimensjon-1] = funksjon[dimensjon-1]/diagonal[dimensjon-1];
+  for (int i = dimensjon-2; i > 0 ; i--) {
+    solution[i] = (funksjon[i] + solution[i+1])/diagonal[i]; //2flops
+  }
+}
+void skriv(double* p, int n) {
+  for (int i = 1; i <= n; i++) {
+    cout << p[i] << endl;
+  }
 }
