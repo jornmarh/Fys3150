@@ -7,6 +7,7 @@
 #include<fstream>
 #include<iomanip>
 #include<stdlib.h>
+#include <bits/stdc++.h>
 
 void generellalgo(double*, double*, double*, double*, double*, int);
 void spesifikalgo(double*, double*, double*, double*, double*, int);
@@ -15,13 +16,16 @@ void skriv(double*, int);
 using namespace std;
 int main(int argc, char* argv[]) {
 
+  clock_t start, end;
+  start = clock();
+
   //create outfile
   ofstream outfile;
   outfile.open("data.txt");
+
   int n = atoi(argv[1]);
 
   //initilize a,c,d,g,u,x
-
   double* a; double* c; double* d;
   a = new double[n+1]; c = new double[n+1]; d = new double[n+1];
 
@@ -43,9 +47,10 @@ int main(int argc, char* argv[]) {
   }
 
   u[0] = u[n] = 0;
-  spesifikalgo(a, c, d, g, u, n);
-  //generellalgo(a, c, d, g, u, n);
-
+  start = clock();
+  //spesifikalgo(a, c, d, g, u, n);
+  generellalgo(a, c, d, g, u, n);
+  end = clock();
   //skriv(u, n);
 
   for (int i = 0; i <= n; i++) {
@@ -58,6 +63,10 @@ int main(int argc, char* argv[]) {
   delete[] d;
   delete[] g;
   delete[] u;
+
+  double tid_brukt = double(end - start) / double(CLOCKS_PER_SEC);
+  cout << "CPU time: " << fixed << tid_brukt << setprecision(5);
+  cout << " s " << endl;
 
   return 0;
 }
