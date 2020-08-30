@@ -8,8 +8,10 @@
 #include<iomanip>
 #include<stdlib.h>
 
-using namespace std;
+void generellalgo(double*, double*, double*, double*, double*, int);
+void spesifikalgo(double*, double*, double*, double*, double*, int);
 
+using namespace std;
 int main(int argc, char* argv[]) {
 
   //create outfile
@@ -37,35 +39,16 @@ int main(int argc, char* argv[]) {
   for (int i = 0; i <= n; i++) {
     x[i] = i*h; //set values of x
     g[i] = h*h*100.0*exp(-10.0*x[i]); //set initial values of g.
-    //cout << x[i] << " " << g[i]  << " " << exp(-10.0*x[i]) << endl;
   }
-  /*
-  for (int i = 0; i <= n; i++) {
-    cout << d[i] << " " << g[i] << endl;
-  }
-  cout << " " << endl;
-*/
-  //forward substitution
-  for (int i = 2; i <= n; i++) {
-    d[i] = d[i] - ((a[i-1]*c[i-1])/d[i-1]);
-    g[i] = g[i] - ((a[i-1]*g[i-1])/d[i-1]);
-  }
-  /* print updated values
-  for (int i = 1; i <= n; i++) {
-    cout << d[i] << " " << g[i] << endl;
-  }
-  */
 
-  u[0] = u[n] = 0; //boundary conditions for solution u(x) x e(0,1)
-  //backward substitution
-  u[n-1] = g[n-1]/d[n-1];
-  for (int i = n-2; i > 0 ; i--) {
-    u[i] = (g[i]- c[i]*u[i+1])/d[i];
-  }
-  cout << "verdier for u[x(i)]" << endl;
-  for (int i = 0; i <= n; i++) {
-    cout << u[i] << " " << x[i] << endl;
-  }
+  u[0] = u[n] = 0;
+  generalalgo(a, c, d, g, u, n); //use general algorythm
+
+  //cout << "verdier for u[x(i)]" << endl;
+  //for (int i = 0; i <= n; i++) {
+    //cout << u[i] << " " << x[i] << endl;
+  //}
+
   for (int i = 0; i <= n; i++) {
     outfile << setw(15) << setprecision(8) << x[i] << " " << u[i] << endl;
   }
@@ -78,4 +61,19 @@ int main(int argc, char* argv[]) {
   delete[] u;
 
   return 0;
+}
+
+void generellalgo(double* under, double* over, double* diagonal, double* funksjon, double* solution, int dimensjon) {
+  for (int i = 2; i <= dimensjon; i++) {
+    diagonal[i] = diagonal[i] - ((under[i-1]*over[i-1])/diagonal[i-1]);
+    funksjon[i] = funksjon[i] - ((under[i-1]*funksjon[i-1])/diagonal[i-1]);
+  }
+  solution[dimensjon-1] = funksjon[dimensjon-1]/diagonal[dimensjon-1];
+  for (int i = dimensjon-2; i > 0 ; i--) {
+    solution[i] = (funksjon[i]- over[i]*solution[i+1])/diagonal[i];
+  }
+
+}
+void spesifikalgo(double* under, double* over, double* diagonal, double* funksjon, double* solution, int dimensjon) {
+  
 }
